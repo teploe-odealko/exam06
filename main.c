@@ -46,8 +46,8 @@ int main(int ac, char **av) {
     struct sockaddr_in addr;
     socklen_t addr_len = sizeof(addr);
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = (1 << 24) | 127;
-    addr.sin_port = (port >> 8) | (port << 8);
+    addr.sin_addr.s_addr = htonl(2130706433);
+    addr.sin_port = htons(port);
 
     if ((bind(serverSock, (const struct sockaddr *)&addr, sizeof(addr))) < 0)
         fatal_error();
