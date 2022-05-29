@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "EndlessLoop"
 typedef struct client {
     int id;
     char msg[110000];
@@ -72,7 +74,7 @@ int main(int ac, char **av) {
 
                 sprintf(bufWrite, "server: client %d just arrived\n", clients[clientSock].id);
                 send_all(clientSock);
-                break ;
+//                break ;
             }
 
             if (FD_ISSET(s, &readyRead) && s != serverSock) {
@@ -84,7 +86,7 @@ int main(int ac, char **av) {
                     send_all(s);
                     FD_CLR(s, &active);
                     close(s);
-                    break ;
+//                    break ;
                 }
                 else {
                     for (int i = 0, j = strlen(clients[s].msg); i < res; i++, j++) {
@@ -94,12 +96,12 @@ int main(int ac, char **av) {
                             sprintf(bufWrite, "client %d: %s\n", clients[s].id, clients[s].msg);
                             send_all(s);
                             bzero(&clients[s].msg, strlen(clients[s].msg));
-                            j = 0;
+                            j = -1;
                         }
-
                     }
                 }
             }
         }
     }
 }
+#pragma clang diagnostic pop
